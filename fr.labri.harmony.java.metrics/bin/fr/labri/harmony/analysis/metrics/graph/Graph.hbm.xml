@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- NOT TESTED YET -->
+<hibernate-mapping package="fr.labri.harmony.analysis.metrics.graph">
+	<union-subclass name="Graph" extends="fr.labri.harmony.Data">
+		<map name="vertices" lazy="true" cascade="all">
+			<key column="vertex_id"></key>
+			<map-key column="vertex_name"></map-key>
+			<one-to-many class="Vertex"/>
+		</map>
+	</union-subclass>
+
+	<class name="Vertex">
+		<id name="id">
+			<generator class="native" />
+		</id>
+
+		<property name="name" />
+		<property name="isInModel" />
+		
+		<map name="incomingEdges" lazy="true" cascade="all">
+			<key column="inEdge_id"></key>
+			<map-key-many-to-many class="Vertex"></map-key-many-to-many>
+			<many-to-many class="Edge" ></many-to-many>
+		</map>
+		
+		<map name="outgoingEdges" lazy="true" cascade="all">
+			<key column="outEdge_id"></key>
+			<map-key-many-to-many class="Vertex"></map-key-many-to-many>
+			<many-to-many class="Edge" ></many-to-many>
+		</map>
+	</class>
+	
+	<class name="Edge">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		
+		<many-to-one name="source" class="Vertex" />
+		<many-to-one name="target" class="Vertex" />
+		
+		<map name="kindMap">
+			<key column="kindMap_id"></key>
+			<map-key column="kind_name"></map-key>
+			<element column="kind_count"></element>
+		</map>
+		
+	
+	</class>
+</hibernate-mapping>

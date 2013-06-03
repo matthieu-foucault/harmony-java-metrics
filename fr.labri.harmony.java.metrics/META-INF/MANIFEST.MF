@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Metrics
+Bundle-SymbolicName: fr.labri.harmony.analysis.java.metrics
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: fr.labri.harmony.core;bundle-version="1.0.0"
+Import-Package: edu.uci.ics.jung.algorithms.shortestpath,
+ edu.uci.ics.jung.graph,
+ edu.uci.ics.jung.graph.util,
+ javax.persistence;version="2.0.4",
+ org.apache.commons.io;version="2.0.1",
+ org.eclipse.core.runtime;version="3.4.0",
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.core.dom
