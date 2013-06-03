@@ -1,13 +1,10 @@
-package fr.labri.harmony.analysis.metrics.util;
+package fr.labri.harmony.analysis.metrics;
 
 import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import fr.labri.harmony.analysis.metrics.ComputeMetrics;
-import fr.labri.harmony.analysis.metrics.ComputeMetricsManager;
-import fr.labri.harmony.analysis.metrics.ComputeMetricsScope;
 import fr.labri.harmony.core.config.model.AnalysisConfiguration;
 
 public class ComputeMetricsManagerFactory {

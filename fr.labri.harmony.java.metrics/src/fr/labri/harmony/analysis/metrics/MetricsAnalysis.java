@@ -2,7 +2,6 @@ package fr.labri.harmony.analysis.metrics;
 
 import java.util.Properties;
 
-import fr.labri.harmony.analysis.metrics.util.ComputeMetricsManagerFactory;
 import fr.labri.harmony.core.analysis.AbstractAnalysis;
 import fr.labri.harmony.core.config.model.AnalysisConfiguration;
 import fr.labri.harmony.core.dao.Dao;

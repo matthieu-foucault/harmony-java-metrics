@@ -3,13 +3,17 @@ package fr.labri.harmony.analysis.metrics;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import fr.labri.harmony.core.model.Data;
 
+@Entity
 public class Metrics implements Data {
 	
+	@OneToMany
 	private Set<Metric> metrics;
 	
 	public Metrics() {
