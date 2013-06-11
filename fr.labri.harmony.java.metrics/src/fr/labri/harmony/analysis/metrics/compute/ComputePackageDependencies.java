@@ -1,12 +1,29 @@
 package fr.labri.harmony.analysis.metrics.compute;
 
-import org.eclipse.jdt.core.dom.*;
-
-import fr.labri.harmony.analysis.metrics.ComputeMetricsScope;
+import org.eclipse.jdt.core.dom.Assignment;
+import org.eclipse.jdt.core.dom.CatchClause;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
+import org.eclipse.jdt.core.dom.ConstructorInvocation;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
+import org.eclipse.jdt.core.dom.FieldAccess;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.IPackageBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
+import org.eclipse.jdt.core.dom.SuperFieldAccess;
+import org.eclipse.jdt.core.dom.SuperMethodInvocation;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import fr.labri.harmony.analysis.metrics.graph.EdgeKind;
 import fr.labri.harmony.analysis.metrics.graph.Graph;
-import fr.labri.harmony.core.model.SourceElement;
 
 public class ComputePackageDependencies extends BuildDependenciesGraph {
 
@@ -20,10 +37,6 @@ public class ComputePackageDependencies extends BuildDependenciesGraph {
 		super.prepareMetrics();
 	}
 
-	@Override
-	public ComputeMetricsScope getScope() {
-		return ComputeMetricsScope.EVENT;
-	}
 
 	public Graph getJPackageGroup() {
 		return graph;
@@ -313,6 +326,11 @@ public class ComputePackageDependencies extends BuildDependenciesGraph {
 	@Override
 	public DependencyKind getDependencyKind() {
 		return DependencyKind.Package;
+	}
+
+	@Override
+	public boolean requiresAllFiles() {
+		return true;
 	}
 
 }

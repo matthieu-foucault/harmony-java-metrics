@@ -1,16 +1,15 @@
 package fr.labri.harmony.analysis.metrics.compute;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraDistance;
 import fr.labri.harmony.analysis.metrics.ComputeMetrics;
 import fr.labri.harmony.analysis.metrics.ComputeMetricsManager;
-import fr.labri.harmony.analysis.metrics.ComputeMetricsScope;
 import fr.labri.harmony.analysis.metrics.graph.Edge;
 import fr.labri.harmony.analysis.metrics.graph.Graph;
 import fr.labri.harmony.analysis.metrics.graph.Vertex;
-
 
 /**
  * Implementation of the network metrics set presented in : [1] T. Zimmermann
@@ -30,11 +29,10 @@ public class Network extends ComputeMetricsManager {
 	private Graph allMethods;
 
 	private ComputeClassDependencies classDependencies;
-	private Graph internalCalsses;
 	private Graph allClasses;
 
-	public Network() {
-		super(new HashSet<ComputeMetrics>());
+	public Network(Collection<String> elementsToAnalyze) {
+		super(new HashSet<ComputeMetrics>(), elementsToAnalyze);
 
 		methodDependencies = new ComputeMethodDependencies();
 		computeMetrics.add(methodDependencies);
@@ -54,7 +52,6 @@ public class Network extends ComputeMetricsManager {
 		computeFanin();
 		computeFanout();
 
-		internalCalsses = classDependencies.getGraph().internalElements();
 		allClasses = classDependencies.getGraph().copy();
 		computeDependecyMetrics(allClasses);
 
@@ -82,7 +79,7 @@ public class Network extends ComputeMetricsManager {
 			default:
 				;
 			}
-			
+
 		}
 		metrics.addMetric("nbExtends", Integer.toString(nbExtends));
 		metrics.addMetric("nbImplements", Integer.toString(nbImplements));
@@ -130,8 +127,4 @@ public class Network extends ComputeMetricsManager {
 		metrics.addMetric("MaxFanin", Integer.toString(maxFanin));
 	}
 
-	@Override
-	public ComputeMetricsScope getScope() {
-		return ComputeMetricsScope.EVENT;
-	}
 }

@@ -7,42 +7,23 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 
-import fr.labri.harmony.core.config.model.AnalysisConfiguration;
-
 public class ASTGenerator {
 
 	private ASTVisitor visitor;
 
-	protected AnalysisConfiguration config;
 
-	protected String localPath;
 
 	private String[] classPath;
 
 	private String[] sourcePath;
 
-	public ASTGenerator(String localPath, AnalysisConfiguration config, ASTVisitor metrics) {
-		this.localPath = localPath;
-		this.config = config;
+	public ASTGenerator(ASTVisitor metrics) {
 		this.visitor = metrics;
 	}
 
-	public ASTGenerator(String localPath) {
-		this.localPath = localPath;
-	}
 
-	public ASTGenerator() {
-		localPath = "";
-	}
-
-	public void setLocalPath(String localPath) {
-		this.localPath = localPath;
-	}
-
-	public void generate(String[] files, String dir) {
+	public void generate(String[] files) {
 		ASTParser parser = ASTParser.newParser(AST.JLS4);
-
-		setLocalPath(dir);
 
 		parser.setEnvironment(classPath, sourcePath, null, true);
 		parser.setResolveBindings(true);

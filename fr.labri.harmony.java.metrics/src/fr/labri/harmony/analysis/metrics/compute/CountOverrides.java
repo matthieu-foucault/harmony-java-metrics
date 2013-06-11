@@ -5,7 +5,6 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import fr.labri.harmony.analysis.metrics.ComputeMetrics;
-import fr.labri.harmony.analysis.metrics.ComputeMetricsScope;
 
 public class CountOverrides extends ComputeMetrics {
 
@@ -26,10 +25,6 @@ public class CountOverrides extends ComputeMetrics {
 		metrics.addMetric("OverridingMeth", Long.toString(overridesCount));
 	}
 
-	@Override
-	public ComputeMetricsScope getScope() {
-		return ComputeMetricsScope.EVENT;
-	}
 
 	@Override
 	public boolean visit(MethodDeclaration node) {
@@ -69,6 +64,11 @@ public class CountOverrides extends ComputeMetrics {
 			if (method.overrides(tMethodBind)) return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean requiresAllFiles() {
+		return true;
 	}
 
 }

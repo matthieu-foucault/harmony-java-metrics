@@ -11,7 +11,6 @@ import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import fr.labri.harmony.analysis.metrics.ComputeMetrics;
-import fr.labri.harmony.analysis.metrics.ComputeMetricsScope;
 
 public class CountElements extends ComputeMetrics {
 
@@ -76,8 +75,10 @@ public class CountElements extends ComputeMetrics {
 	}
 
 	@Override
-	public ComputeMetricsScope getScope() {
-		return ComputeMetricsScope.EVENT;
+	public boolean requiresAllFiles() {
+		return false;
 	}
+
+
 
 }

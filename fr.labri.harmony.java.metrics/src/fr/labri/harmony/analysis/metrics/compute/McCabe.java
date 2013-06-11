@@ -14,7 +14,6 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
 import fr.labri.harmony.analysis.metrics.ComputeMetrics;
-import fr.labri.harmony.analysis.metrics.ComputeMetricsScope;
 
 /**
  * Computes average McCabe's cyclomatic complexity. Code adapted from Eclipse
@@ -44,10 +43,6 @@ public class McCabe extends ComputeMetrics {
 		metrics.addMetric("MAX_MCCABE", Integer.toString(maxCyclomatic));
 	}
 
-	@Override
-	public ComputeMetricsScope getScope() {
-		return ComputeMetricsScope.EVENT;
-	}
 
 	@Override
 	public boolean visit(MethodDeclaration node) {
@@ -155,6 +150,12 @@ public class McCabe extends ComputeMetrics {
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean requiresAllFiles() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

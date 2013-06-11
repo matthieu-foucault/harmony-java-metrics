@@ -9,7 +9,6 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 
-import fr.labri.harmony.analysis.metrics.ComputeMetricsScope;
 import fr.labri.harmony.analysis.metrics.graph.EdgeKind;
 
 public class ComputeMethodDependencies extends BuildDependenciesGraph {
@@ -23,10 +22,7 @@ public class ComputeMethodDependencies extends BuildDependenciesGraph {
 		super.prepareMetrics();
 	}
 
-	@Override
-	public ComputeMetricsScope getScope() {
-		return ComputeMetricsScope.EVENT;
-	}
+
 
 	@Override
 	public boolean visit(MethodDeclaration node) {
@@ -117,6 +113,11 @@ public class ComputeMethodDependencies extends BuildDependenciesGraph {
 	@Override
 	public DependencyKind getDependencyKind() {
 		return DependencyKind.Method;
+	}
+
+	@Override
+	public boolean requiresAllFiles() {
+		return true;
 	}
 
 }

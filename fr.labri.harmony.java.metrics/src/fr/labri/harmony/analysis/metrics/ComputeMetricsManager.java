@@ -1,7 +1,9 @@
 package fr.labri.harmony.analysis.metrics;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -106,19 +108,17 @@ public class ComputeMetricsManager extends ComputeMetrics {
 	protected Set<ComputeMetrics> computeMetrics;
 	protected AnalysisConfiguration config;
 
-	
+	public ComputeMetricsManager(Set<ComputeMetrics> computeMetrics, Collection<String> elementsToAnalyze) {
+		super(elementsToAnalyze);
+		this.computeMetrics = computeMetrics;
+	}
+
 	public AnalysisConfiguration getConfig() {
 		return config;
 	}
 
-	
 	public void setConfig(AnalysisConfiguration config) {
 		this.config = config;
-	}
-	
-
-	public ComputeMetricsScope getScope() {
-		return null;
 	}
 
 	@Override
@@ -128,33 +128,37 @@ public class ComputeMetricsManager extends ComputeMetrics {
 			metrics.getMetrics().addAll(c.getMetrics().getMetrics());
 		}
 	}
-	
-	public void analyseWorkspace(String path, int elementId, int elementKind) {
+
+	public void analyseWorkspace(String path) {
 		this.workspacePath = path;
-		for (ComputeMetrics metrics : computeMetrics)
+		boolean requiresAllFiles = false;
+		for (ComputeMetrics metrics : computeMetrics) {
 			metrics.analyseWorkspace(path);
-
-		// get all java files
-		Collection<File> allFiles = FileUtils.listFiles(new File(path), new String[]{"java"}, true);
-
+			if (metrics.requiresAllFiles()) requiresAllFiles = true;
+		}
+		
+		List<String> filesPaths = new ArrayList<>(elementsToAnalyze); 
+		if (requiresAllFiles) {
+			// get all java files
+			Collection<File> allFiles = FileUtils.listFiles(new File(path), new String[] { "java" }, true);
+			for (File file : allFiles) {
+				String filePath = file.getAbsolutePath();
+				if (!filesPaths.contains(filePath)) filesPaths.add(filePath);
+			}
+		}
 		// Parse allFiles with JDT
-		ASTGenerator gen = new ASTGenerator(path, config, this);
-		gen.generate(allFiles.toArray(new String[allFiles.size()]), path);
+		ASTGenerator gen = new ASTGenerator(this);
+		gen.generate(filesPaths.toArray(new String[filesPaths.size()]));
 		
 		prepareMetrics();
-		
+
 		/*
 		 * If we are on windows, we might have an exception when trying to
-		 * update the workspace. This occurs when the AST parser of the
-		 * previous iterations hasn't released some files. Running GC solves
-		 * this issue.
+		 * update the workspace. This occurs when the AST parser of the previous
+		 * iterations hasn't released some files. Running GC solves this issue.
 		 */
 		if (System.getProperty("os.name").toLowerCase().contains("win")) Runtime.getRuntime().gc();
 
-	}
-
-	public ComputeMetricsManager(Set<ComputeMetrics> computeMetrics) {
-		this.computeMetrics = computeMetrics;
 	}
 
 	@Override
@@ -759,6 +763,11 @@ public class ComputeMetricsManager extends ComputeMetrics {
 		for (ASTVisitor metric : computeMetrics)
 			metric.visit(node);
 		return super.visit(node);
+	}
+
+	@Override
+	public boolean requiresAllFiles() {
+		return false;
 	}
 
 }

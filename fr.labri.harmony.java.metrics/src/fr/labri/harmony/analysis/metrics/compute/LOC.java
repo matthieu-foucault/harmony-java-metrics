@@ -15,7 +15,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import fr.labri.harmony.analysis.metrics.ComputeMetrics;
-import fr.labri.harmony.analysis.metrics.ComputeMetricsScope;
 
 
 public class LOC extends ComputeMetrics {
@@ -62,8 +61,9 @@ public class LOC extends ComputeMetrics {
      }
 
 	@Override
-	public ComputeMetricsScope getScope() {
-		return ComputeMetricsScope.EVENT;
+	public boolean requiresAllFiles() {
+		return false;
 	}
+
 
 }

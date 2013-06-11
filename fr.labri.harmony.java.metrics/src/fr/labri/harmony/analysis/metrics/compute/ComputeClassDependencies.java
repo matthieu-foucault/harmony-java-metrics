@@ -356,4 +356,9 @@ public class ComputeClassDependencies extends BuildDependenciesGraph {
 		return DependencyKind.Class;
 	}
 
+	@Override
+	public boolean requiresAllFiles() {
+		return true;
+	}
+
 }

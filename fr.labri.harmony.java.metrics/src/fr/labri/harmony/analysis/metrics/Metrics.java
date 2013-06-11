@@ -3,6 +3,7 @@ package fr.labri.harmony.analysis.metrics;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,7 +14,7 @@ import fr.labri.harmony.core.model.Data;
 @Entity
 public class Metrics implements Data {
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.PERSIST)
 	private Set<Metric> metrics;
 	
 	public Metrics() {
@@ -31,6 +32,10 @@ public class Metrics implements Data {
 	
 	public void addMetric(String name, String value) {
 		metrics.add(new Metric(name, value));
+	}
+	
+	public void addMetric(String name, String value, String elementNativeId) {
+		metrics.add(new Metric(name, value, elementNativeId));
 	}
 	
 	@Id @GeneratedValue

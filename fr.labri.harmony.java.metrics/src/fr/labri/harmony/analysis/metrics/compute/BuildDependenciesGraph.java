@@ -4,7 +4,6 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import fr.labri.harmony.analysis.metrics.ComputeMetrics;
-import fr.labri.harmony.analysis.metrics.ComputeMetricsScope;
 import fr.labri.harmony.analysis.metrics.graph.EdgeKind;
 import fr.labri.harmony.analysis.metrics.graph.Graph;
 import fr.labri.harmony.analysis.metrics.graph.Vertex;
@@ -50,11 +49,6 @@ public abstract class BuildDependenciesGraph extends ComputeMetrics {
 
 		metrics.addMetric(getDependencyKind() + "MFAS", Long.toString(mfasNumber));
 		*/
-	}
-
-	@Override
-	public ComputeMetricsScope getScope() {
-		return ComputeMetricsScope.EVENT;
 	}
 
 	public abstract DependencyKind getDependencyKind();
